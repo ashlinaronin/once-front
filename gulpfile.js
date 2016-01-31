@@ -28,7 +28,7 @@ var size = require('gulp-size');
 var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
-var nodemon = require('gulp-nodemon');
+// var nodemon = require('gulp-nodemon');
 var env = require('gulp-env');
 var reload = browserSync.reload;
 
