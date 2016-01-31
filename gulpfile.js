@@ -156,22 +156,6 @@ gulp.task('clean', function() {
   return del(destDir);
 });
 
-gulp.task('nodemon', function(cb) {
-  var started = false;
-
-  return nodemon({
-    script: 'app.js',
-    debug: true
-  }).on('start', function() {
-    // to avoid nodemon being started multiple times
-    // thanks @matthisk
-    if (!started) {
-      cb();
-      started = true;
-    }
-  });
-});
-
 gulp.task('set-dist-env', function() {
   return env({
     vars: {
@@ -181,11 +165,10 @@ gulp.task('set-dist-env', function() {
 });
 
 // Watch and serve src with browsersync
-gulp.task('serve:dev', ['sass-dev', 'nodemon'], function() {
+gulp.task('serve:dev', ['sass-dev'], function() {
   browserSync.init({
     logPrefix: 'once-upon dev',
-    proxy: 'http://localhost:3000',
-    port: 7000
+    server: srcDir
     // server: srcDir
   });
 
@@ -199,11 +182,10 @@ gulp.task('serve:dev', ['sass-dev', 'nodemon'], function() {
 // not working yet
 // amke sure we serve from the new folder
 // so we pass an environment variable to app js
-gulp.task('serve:dist', ['build', 'set-dist-env', 'nodemon'], function() {
+gulp.task('serve:dist', ['build', 'set-dist-env'], function() {
   browserSync.init({
     logPrefix: 'once-upon dist',
-    proxy: 'http://localhost:3000',
-    port: 7000
+    server: destDir
   });
 
   gulp.watch([paths.html], ['html', reload]);
